@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Activity Tracker</string>
+    <string name="title_activity_hello_screen">HelloScreenActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="registration_button">Зарегистрироваться</string>
+    <string name="registration_text_1">Пожалуй лучший \n фитнес трекер в ДВФУ</string>
+    <string name="registration_text_2">Созданный студентами \n 2-ого курса</string>
+    <string name="continue_button">Продолжить</string>
+    <string name="log_in">Уже есть аккаунт?</string>
+    <string name="registration">Регистрация</string>
+    <string name="enter">Вход</string>
+    <string name="hint_login_reg">Логин</string>
+    <string name="hint_password_reg">Пароль</string>
+    <string name="hint_password_repeat_reg">Повторите пароль</string>
+    <string name="hint_nickname_reg">Имя или никнейм</string>
+    <string name="hint_sex_reg">Пол</string>
+    <string name="agree_with_politic_reg">Нажимая на кнопку, вы соглашаетесь с политикой \nконфиденциальности и обработки персональных \n данных, а также принимаете пользовательское \n            соглашение</string>
+
+
 </resources>
