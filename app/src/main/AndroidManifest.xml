@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Activity">
         <activity
+
+            android:name=".RegistrationActivity"
+            android:exported="true" />
+        <activity
             android:name=".MainScreenActivity"
             android:exported="true" />
         <activity
             android:name=".EnterActivity"
             android:exported="true" />
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".NavigationActivity"
             android:exported="true"
             android:label="@string/title_activity_hello_screen"
             android:theme="@style/Theme.Activity.NoActionBar">
