@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -32,5 +33,12 @@ class ActivityFragment : Fragment() {
         TabLayoutMediator(tabLayout,viewPager){
                 tab,position->tab.text = tabNames[position]
         }.attach()
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) return
+        val activity_tab = requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu.findItem(R.id.bottom_menu_activity)
+        if(!activity_tab.isChecked) activity_tab.isChecked = true
     }
 }
