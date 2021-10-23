@@ -22,6 +22,12 @@
     <string name="hint_nickname_reg">Имя или никнейм</string>
     <string name="hint_sex_reg">Пол</string>
     <string name="agree_with_politic_reg">Нажимая на кнопку, вы соглашаетесь с политикой \nконфиденциальности и обработки персональных \n данных, а также принимаете пользовательское \n            соглашение</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="activity">Активность</string>
+    <string name="profile">Профиль</string>
+    <string name="My">Мои</string>
+    <string name="other">Пользователей</string>
 
 
 </resources>
