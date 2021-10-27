@@ -28,6 +28,8 @@
     <string name="profile">Профиль</string>
     <string name="My">Мои</string>
     <string name="other">Пользователей</string>
+    <string name="detalisation">detalisation</string>
+    <string name="comment">комментарий</string>
 
 
 </resources>

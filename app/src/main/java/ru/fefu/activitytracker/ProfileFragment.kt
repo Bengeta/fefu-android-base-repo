@@ -15,6 +15,10 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val profile_tab =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).menu.findItem(
+                R.id.bottom_menu_profile)
+        profile_tab.isChecked = true
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
