@@ -18,9 +18,12 @@ class ActivityOtherFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         recyclerAdapter.setItemClickListener {
-            (requireActivity() as NavigationActivity).callback(it,false);
+            var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
+            fragment_manager.beginTransaction().apply {
+                replace(R.id.container,DetalisationFragment(it,false))
+                commit()
+            }
         }
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_activity_other, container, false)
 
 }

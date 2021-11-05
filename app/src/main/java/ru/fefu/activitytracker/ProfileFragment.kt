@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ProfileFragment : Fragment() {
@@ -29,5 +30,8 @@ class ProfileFragment : Fragment() {
                 R.id.bottom_menu_profile
             )
         if (!profile_tab.isChecked) profile_tab.isChecked = true
+    }
+    public fun setupNavigation(){
+        findNavController().navigate(R.id.action_profileFragment_to_activityFragment)
     }
 }

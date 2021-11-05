@@ -1,6 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_nav">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/activityFragment">
 
+    <fragment
+        android:id="@+id/activityFragment"
+        android:name="ru.fefu.activitytracker.ActivityFragment"
+        android:label="fragment_activity"
+        tools:layout="@layout/fragment_activity" >
+        <action
+            android:id="@+id/action_activityFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityMyFragment"
+        android:name="ru.fefu.activitytracker.ActivityMyFragment"
+        android:label="fragment_activity_my"
+        tools:layout="@layout/fragment_activity_my" >
+        <action
+            android:id="@+id/action_activityMyFragment_to_activityOtherFragment"
+            app:destination="@id/activityOtherFragment" />
+        <action
+            android:id="@+id/action_activityMyFragment_to_detalisationFragment"
+            app:destination="@id/detalisationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityOtherFragment"
+        android:name="ru.fefu.activitytracker.ActivityOtherFragment"
+        android:label="fragment_activity_other"
+        tools:layout="@layout/fragment_activity_other" >
+        <action
+            android:id="@+id/action_activityOtherFragment_to_activityMyFragment"
+            app:destination="@id/activityMyFragment" />
+        <action
+            android:id="@+id/action_activityOtherFragment_to_detalisationFragment"
+            app:destination="@id/detalisationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalisationFragment"
+        android:name="ru.fefu.activitytracker.DetalisationFragment"
+        android:label="fragment_detalisation"
+        tools:layout="@layout/fragment_detalisation" >
+        <action
+            android:id="@+id/action_detalisationFragment_to_activityOtherFragment"
+            app:destination="@id/activityOtherFragment" />
+        <action
+            android:id="@+id/action_detalisationFragment_to_activityMyFragment"
+            app:destination="@id/activityMyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="ru.fefu.activitytracker.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_activityFragment"
+            app:destination="@id/activityFragment" />
+    </fragment>
 </navigation>

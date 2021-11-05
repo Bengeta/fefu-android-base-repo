@@ -17,7 +17,14 @@ class ActivityMyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         recyclerAdapter.setItemClickListener {
-            (requireActivity() as NavigationActivity).callback(it,true);
+            var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
+            fragment_manager.beginTransaction().apply {
+                var f = fragment_manager.findFragmentByTag("activitys")
+                if (f != null)
+                    this.remove(f)
+                replace(R.id.container,DetalisationFragment(it,true))
+                commit()
+            }
         }
         return inflater.inflate(R.layout.fragment_activity_my, container, false)
     }
