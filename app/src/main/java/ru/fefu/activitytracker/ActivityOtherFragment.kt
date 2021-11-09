@@ -20,7 +20,8 @@ class ActivityOtherFragment : Fragment() {
         recyclerAdapter.setItemClickListener {
             var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
             fragment_manager.beginTransaction().apply {
-                replace(R.id.container,DetalisationFragment(it,false))
+                replace(R.id.container,DetalisationFragment.newInstance(it,false))
+                addToBackStack(null)
                 commit()
             }
         }

@@ -19,10 +19,8 @@ class ActivityMyFragment : Fragment() {
         recyclerAdapter.setItemClickListener {
             var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
             fragment_manager.beginTransaction().apply {
-                var f = fragment_manager.findFragmentByTag("activitys")
-                if (f != null)
-                    this.remove(f)
-                replace(R.id.container,DetalisationFragment(it,true))
+                replace(R.id.container,DetalisationFragment.newInstance (it,true))
+                addToBackStack(null)
                 commit()
             }
         }

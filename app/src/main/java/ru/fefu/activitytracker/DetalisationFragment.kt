@@ -6,20 +6,30 @@ import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toolbar
+import androidx.core.os.bundleOf
 import java.lang.ProcessBuilder.Redirect.to
 import java.text.FieldPosition
 
-class DetalisationFragment(position: Int, is_my: Boolean) : Fragment() {
-    private val is_my = is_my
-    private val crossRepository = if (is_my) MyCrossRepository().getCrosses()
-        .toMutableList() else OtherCrossRepository().getCrosses().toMutableList()
-    private val position = position
+class DetalisationFragment() : Fragment() {
+    private var is_my : Boolean = false
+    private var crossRepository = mutableListOf<CrossItem>()
+    private var  position : Int = 0
 
+    companion object {
+        fun newInstance(position: Int, is_my: Boolean) = DetalisationFragment().apply {
+            arguments = bundleOf("is_my" to is_my,"position" to position,)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+         is_my = arguments?.get("is_my") as Boolean
+         position = arguments?.get("position") as Int
+         crossRepository = if (is_my) MyCrossRepository().getCrosses()
+            .toMutableList() else OtherCrossRepository().getCrosses().toMutableList()
         return inflater.inflate(R.layout.fragment_detalisation, container, false)
     }
 
@@ -44,11 +54,7 @@ class DetalisationFragment(position: Int, is_my: Boolean) : Fragment() {
 
 
         toolbar.setNavigationOnClickListener {
-            val fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
-            fragment_manager.beginTransaction().apply {
-                replace(R.id.container,ActivityFragment())
-                commit()
-            }
+            (parentFragment as FlowFragmentInterface).getFlowFragmentManager().popBackStack()
         }
 
 
