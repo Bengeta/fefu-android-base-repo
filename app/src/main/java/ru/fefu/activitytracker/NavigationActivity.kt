@@ -18,7 +18,7 @@ class NavigationActivity : AppCompatActivity() {
         };
         else  {
             supportFragmentManager.beginTransaction().apply {
-                add(R.id.fragmentContainerView, ActivityFragment(), "activity")
+                replace(R.id.fragmentContainerView,ActivityFlowFragment(),"activity")
                 commit()
             }
         }
@@ -30,7 +30,6 @@ class NavigationActivity : AppCompatActivity() {
                     if (f != null) this.show(f)
                     f = supportFragmentManager.findFragmentByTag("profile")
                     if (f != null) this.hide(f)
-                    addToBackStack("activity")
                     commit()
                 }
             } else if (it.itemId == R.id.bottom_menu_profile && bottom_nav.selectedItemId == R.id.bottom_menu_activity ) {
@@ -45,7 +44,6 @@ class NavigationActivity : AppCompatActivity() {
                         "profile"
                     )
                     else this.show(fragment)
-                    addToBackStack("profile")
                     commit()
                 }
             }
