@@ -1,14 +1,15 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Fragment
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toolbar
 import androidx.core.os.bundleOf
-import java.lang.ProcessBuilder.Redirect.to
-import java.text.FieldPosition
+import ru.fefu.activitytracker.*
+import ru.fefu.activitytracker.Interface.FlowFragmentInterface
+import ru.fefu.activitytracker.Items.CrossItem
+import ru.fefu.activitytracker.Repository.MyCrossRepository
+import ru.fefu.activitytracker.Repository.OtherCrossRepository
 
 class DetalisationFragment() : Fragment() {
     private var is_my : Boolean = false

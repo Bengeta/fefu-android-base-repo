@@ -1,4 +1,4 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Items
 import androidx.annotation.DrawableRes
 data class CrossItem (
     val distance: String?,

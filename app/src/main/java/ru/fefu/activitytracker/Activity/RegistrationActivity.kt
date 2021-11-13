@@ -1,4 +1,4 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,9 +7,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.ImageView
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import ru.fefu.activitytracker.R
 
 class RegistrationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,13 +19,13 @@ class RegistrationActivity : AppCompatActivity() {
         var element : TextInputLayout= findViewById(R.id.gender);
         (element as? AutoCompleteTextView)?.setAdapter(adapter)
         val arrow_back : ImageView =  findViewById(R.id.arrow_back);
-        val registration_button : Button =  findViewById(R.id.button_continue_enter);
+        val registration_button : Button =  findViewById(R.id.start_activity_map);
         registration_button.setOnClickListener{
             //startActivity(Intent(this,RegistrationActivity::class.java))
             //TODO проверку заполнения полей
         }
         arrow_back.setOnClickListener{
-            startActivity(Intent(this,MainScreenActivity::class.java))
+            startActivity(Intent(this, MainScreenActivity::class.java))
         }
     }
 

@@ -1,10 +1,12 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.fragment.app.FragmentContainerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.fefu.activitytracker.Fragment.ActivityFlowFragment
+import ru.fefu.activitytracker.Fragment.ProfileFlowFragment
+import ru.fefu.activitytracker.R
 
 
 class NavigationActivity : AppCompatActivity() {
@@ -18,7 +20,7 @@ class NavigationActivity : AppCompatActivity() {
         };
         else  {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.fragmentContainerView,ActivityFlowFragment(),"activity")
+                replace(R.id.fragmentContainerView, ActivityFlowFragment(),"activity")
                 commit()
             }
         }
@@ -32,7 +34,7 @@ class NavigationActivity : AppCompatActivity() {
                     if (f != null) this.hide(f)
                     commit()
                 }
-            } else if (it.itemId == R.id.bottom_menu_profile && bottom_nav.selectedItemId == R.id.bottom_menu_activity ) {
+            } else if (it.itemId == R.id.bottom_menu_profile && bottom_nav.selectedItemId == R.id.bottom_menu_activity) {
                 supportFragmentManager.beginTransaction().apply {
                     var fragment = supportFragmentManager.findFragmentByTag("activity")
                     if (fragment != null)
@@ -40,7 +42,7 @@ class NavigationActivity : AppCompatActivity() {
                     fragment = supportFragmentManager.findFragmentByTag("profile")
                     if (fragment == null) add(
                         R.id.fragmentContainerView,
-                        ProfileFragment(),
+                        ProfileFlowFragment(),
                         "profile"
                     )
                     else this.show(fragment)
