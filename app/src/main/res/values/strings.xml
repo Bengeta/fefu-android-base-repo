@@ -16,8 +16,11 @@
     <string name="log_in">Уже есть аккаунт?</string>
     <string name="registration">Регистрация</string>
     <string name="enter">Вход</string>
+    <string name="accept">Принять</string>
     <string name="hint_login_reg">Логин</string>
     <string name="hint_password_reg">Пароль</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="new_password">Новый пароль</string>
     <string name="hint_password_repeat_reg">Повторите пароль</string>
     <string name="hint_nickname_reg">Имя или никнейм</string>
     <string name="hint_sex_reg">Пол</string>
@@ -27,6 +30,11 @@
     <string name="activity">Активность</string>
     <string name="profile">Профиль</string>
     <string name="My">Мои</string>
+    <string name="Exit">Выйти</string>
+    <string name="start">Начать</string>
+    <string name="hi_speech_map">Погнали? :)</string>
+    <string name="save">Сохранить</string>
+    <string name="change_password">Изменить пароль</string>
     <string name="other">Пользователей</string>
     <string name="detalisation">detalisation</string>
     <string name="comment">комментарий</string>

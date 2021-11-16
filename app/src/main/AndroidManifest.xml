@@ -10,17 +10,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Activity">
         <activity
-
-            android:name=".RegistrationActivity"
+            android:name=".Activity.MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.RegistrationActivity"
             android:exported="true" />
         <activity
-            android:name=".MainScreenActivity"
+            android:name=".Activity.MainScreenActivity"
             android:exported="true" />
         <activity
-            android:name=".EnterActivity"
+            android:name=".Activity.EnterActivity"
             android:exported="true" />
+     <!--   <activity
+            android:name=".Activity.NavigationActivity"
+            android:exported="true" />-->
         <activity
-            android:name=".NavigationActivity"
+            android:name=".Activity.NavigationActivity"
             android:exported="true"
             android:label="@string/title_activity_hello_screen"
             android:theme="@style/Theme.Activity.NoActionBar">

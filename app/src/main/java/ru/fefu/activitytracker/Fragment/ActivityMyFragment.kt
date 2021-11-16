@@ -1,4 +1,4 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.fefu.activitytracker.*
+import ru.fefu.activitytracker.Adapters.RecyclerAdapter
+import ru.fefu.activitytracker.Interface.FlowFragmentInterface
+import ru.fefu.activitytracker.Repository.MyCrossRepository
 
 
 class ActivityMyFragment : Fragment() {
@@ -19,7 +23,7 @@ class ActivityMyFragment : Fragment() {
         recyclerAdapter.setItemClickListener {
             var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
             fragment_manager.beginTransaction().apply {
-                replace(R.id.container,DetalisationFragment.newInstance (it,true))
+                replace(R.id.container, DetalisationFragment.newInstance(it, true))
                 addToBackStack(null)
                 commit()
             }

@@ -1,10 +1,12 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.fefu.activitytracker.Items.CrossItem
+import ru.fefu.activitytracker.R
 
 class RecyclerAdapter(crosses: List<CrossItem>, is_my: Boolean) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

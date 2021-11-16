@@ -1,4 +1,6 @@
-package ru.fefu.activitytracker
+package ru.fefu.activitytracker.Repository
+
+import ru.fefu.activitytracker.Items.CrossItem
 
 class MyCrossRepository {
     private val hardCoodeCrosses = listOf<CrossItem>(
