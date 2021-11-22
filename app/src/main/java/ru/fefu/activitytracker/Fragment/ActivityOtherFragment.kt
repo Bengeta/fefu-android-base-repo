@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.fefu.activitytracker.*
+import ru.fefu.activitytracker.Adapters.AdapterForOther
 import ru.fefu.activitytracker.Adapters.RecyclerAdapter
 import ru.fefu.activitytracker.Interface.FlowFragmentInterface
 import ru.fefu.activitytracker.Repository.OtherCrossRepository
@@ -16,7 +17,7 @@ import ru.fefu.activitytracker.Repository.OtherCrossRepository
 class ActivityOtherFragment : Fragment() {
 
     private val crossRepository = OtherCrossRepository()
-    private val recyclerAdapter = RecyclerAdapter(crossRepository.getCrosses(),false)
+    private val recyclerAdapter = AdapterForOther(crossRepository.getCrosses(),false)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,7 +25,7 @@ class ActivityOtherFragment : Fragment() {
         recyclerAdapter.setItemClickListener {
             var fragment_manager = (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
             fragment_manager.beginTransaction().apply {
-                replace(R.id.container, DetalisationFragment.newInstance(it, false))
+                replace(R.id.container, DetalisationFragment.newInstance(it, false,null))
                 addToBackStack(null)
                 commit()
             }

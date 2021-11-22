@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.RecyclerView
+import ru.fefu.activitytracker.Enums.CrossType
 import ru.fefu.activitytracker.R
 import ru.fefu.activitytracker.Repository.ActivityForMapRepository
 
@@ -34,7 +35,7 @@ class StartActivityOnMapFragment : Fragment() {
         val view = requireView()
         val type = view.findViewById<TextView>(R.id.type_on_start_activity_map)
         val width = view.findViewById<TextView>(R.id.activity_width)
-        type.text = crossRepository[position].type
+        type.text = CrossType.values()[crossRepository[position].type].type
         width.text = crossRepository[position].record
     }
 

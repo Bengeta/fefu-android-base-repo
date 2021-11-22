@@ -9,7 +9,9 @@ import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.recyclerview.widget.RecyclerView
+import ru.fefu.activitytracker.Enums.CrossType
 import ru.fefu.activitytracker.Items.ActivityItemForMap
+import ru.fefu.activitytracker.Items.CrossItem
 import ru.fefu.activitytracker.R
 
 class RecyclerForMapAdapter(crosses: List<ActivityItemForMap>, context: Context) :
@@ -30,7 +32,8 @@ class RecyclerForMapAdapter(crosses: List<ActivityItemForMap>, context: Context)
         }
 
         fun bind(activity_item_for_map: ActivityItemForMap) {
-            type.text = activity_item_for_map.type
+            type.text =CrossType.values()[activity_item_for_map.type].type
+
 
             itemView.background = if (activity_item_for_map.isSelected) ContextCompat.getDrawable(
                 context,
