@@ -20,11 +20,12 @@ class AdapterForOther(crosses: List<CrossItem>, is_my: Boolean) :
         private val date: TextView = itemView.findViewById(R.id.activity_date)
 
         init {
-            itemView.setOnClickListener(){
-                val position =absoluteAdapterPosition
+            itemView.setOnClickListener() {
+                val position = absoluteAdapterPosition
                 itemClickListener.invoke(position)
             }
         }
+
         fun bind(cross_item: CrossItem) {
             distance.text = cross_item.distance
             time.text = cross_item.time
@@ -40,13 +41,13 @@ class AdapterForOther(crosses: List<CrossItem>, is_my: Boolean) :
             time.text = cross_item.time
         }
     }
-    private var itemClickListener:  (Int)-> Unit= {}
+
+    private var itemClickListener: (Int) -> Unit = {}
     private val is_my = is_my
-    private var is_date = false;
     private val mutable_crosses = crosses.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (!is_date) {
+        if (viewType == 0) {
             val veiw = LayoutInflater.from(parent.context)
                 .inflate(R.layout.number_cross_list, parent, false)
             return RecyclerViewHolder(veiw)
@@ -58,7 +59,7 @@ class AdapterForOther(crosses: List<CrossItem>, is_my: Boolean) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if (is_date) {
+        if (getItemViewType(position) == 1) {
             (holder as RecyclerViewHolderForDate).bind(mutable_crosses[position])
         } else {
             (holder as RecyclerViewHolder).bind(mutable_crosses[position])
@@ -68,14 +69,13 @@ class AdapterForOther(crosses: List<CrossItem>, is_my: Boolean) :
     override fun getItemCount(): Int = mutable_crosses.size
 
     override fun getItemViewType(position: Int): Int {
-        if (is_my) {
-            is_date = position % 2 == 0
-        } else
-            is_date = position == 0
-        return super.getItemViewType(position)
+        return if (position == 0)
+            1
+        else
+            0
     }
 
-    fun setItemClickListener(listener:(Int)->Unit){
+    fun setItemClickListener(listener: (Int) -> Unit) {
         itemClickListener = listener
     }
 

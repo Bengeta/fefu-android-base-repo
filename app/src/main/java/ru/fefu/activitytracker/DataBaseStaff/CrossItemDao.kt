@@ -7,11 +7,8 @@ import androidx.room.Query
 
 @Dao
 interface CrossItemDao {
-    @Query("SELECT * FROM activities")
+    @Query("SELECT * FROM activities ORDER BY date_start DESC")
     fun getAll(): LiveData<List<CrossItemEntity>>
-
-    @Query("SELECT * FROM activities")
-    fun getAll_(): List<CrossItemEntity>
 
     @Insert
     fun insertCross(vararg CrossItemEntity: CrossItemEntity)

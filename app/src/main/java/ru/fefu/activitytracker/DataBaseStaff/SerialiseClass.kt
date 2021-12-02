@@ -5,18 +5,21 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class SerialiseClass{
+class SerialiseClass {
 
-     fun listEncode(list:List<Pair<Double,Double>>):String {
+    fun listEncode(list: List<Pair<Double, Double>>): String {
         return Json.encodeToString(list)
     }
-    fun listDecode(list: String):List<Pair<Double,Double>>{
-        return Json.decodeFromString<List<Pair<Double,Double>>>(list)
+
+    fun listDecode(list: String): List<Pair<Double, Double>> {
+        return Json.decodeFromString<List<Pair<Double, Double>>>(list)
     }
-    fun itemEncode(cross_item:CrossItemEntity):String {
+
+    fun itemEncode(cross_item: Activity): String {
         return Json.encodeToString(cross_item)
     }
-    fun itemDecode(cross_item: String):CrossItemEntity{
+
+    fun itemDecode(cross_item: String): CrossItemEntity {
         return Json.decodeFromString<CrossItemEntity>(cross_item)
     }
 }

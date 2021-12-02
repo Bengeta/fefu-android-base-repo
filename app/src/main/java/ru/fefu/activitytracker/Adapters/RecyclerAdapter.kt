@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.fefu.activitytracker.DataBaseStaff.App
-import ru.fefu.activitytracker.DataBaseStaff.CrossItemEntity
-import ru.fefu.activitytracker.DataBaseStaff.SerialiseClass
+import ru.fefu.activitytracker.DataBaseStaff.*
 import ru.fefu.activitytracker.Enums.CrossType
 import ru.fefu.activitytracker.Items.CrossItem
 import ru.fefu.activitytracker.R
@@ -17,7 +15,7 @@ import java.lang.Math.PI
 import java.util.*
 import kotlin.math.roundToLong
 
-class RecyclerAdapter(crosses: List<CrossItemEntity>, is_my: Boolean) :
+class RecyclerAdapter(crosses: List<DBCrossItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
@@ -34,7 +32,7 @@ class RecyclerAdapter(crosses: List<CrossItemEntity>, is_my: Boolean) :
             }
         }
 
-        fun bind(cross_item: CrossItemEntity) {
+        fun bind(cross_item: Activity) {
             distance.text = countDistance(SerialiseClass().listDecode(cross_item.coordinates!!))
             time.text = countPeriod(cross_item.date_end!! - cross_item.date_start!!)
             type.text = CrossType.values()[cross_item.type!!].type
@@ -45,18 +43,16 @@ class RecyclerAdapter(crosses: List<CrossItemEntity>, is_my: Boolean) :
 
     inner class RecyclerViewHolderForDate(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val time: TextView = itemView.findViewById(R.id.activity_date_out)
-        fun bind(cross_item: CrossItemEntity) {
+        fun bind(cross_item: Date_) {
             time.text = cross_item.date
         }
     }
 
     private var itemClickListener: (Int) -> Unit = {}
-    private val is_my = is_my
-    private var is_date = false;
-    private val mutable_crosses = crosses.toMutableList()
+    private var mutable_crosses = crosses.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (!is_date) {
+        if (viewType == 0) {
             val veiw = LayoutInflater.from(parent.context)
                 .inflate(R.layout.number_cross_list, parent, false)
             return RecyclerViewHolder(veiw)
@@ -68,18 +64,20 @@ class RecyclerAdapter(crosses: List<CrossItemEntity>, is_my: Boolean) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if (is_date) {
-            (holder as RecyclerViewHolderForDate).bind(mutable_crosses[position])
+        if (getItemViewType(position) == 1) {
+            (holder as RecyclerViewHolderForDate).bind(mutable_crosses[position] as Date_)
         } else {
-            (holder as RecyclerViewHolder).bind(mutable_crosses[position])
+            (holder as RecyclerViewHolder).bind(mutable_crosses[position] as Activity)
         }
     }
 
     override fun getItemCount(): Int = mutable_crosses.size
 
     override fun getItemViewType(position: Int): Int {
-        is_date = mutable_crosses[position].date != null
-        return super.getItemViewType(position)
+        return when (mutable_crosses[position]) {
+            is Activity -> 0
+            is Date_ -> 1
+        }
     }
 
     fun setItemClickListener(listener: (Int) -> Unit) {
@@ -112,9 +110,13 @@ class RecyclerAdapter(crosses: List<CrossItemEntity>, is_my: Boolean) :
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance += startPoint.distanceTo(endPoint).toDouble()/1000
+            distance = startPoint.distanceTo(endPoint).toDouble() / 1000
         }// first - latitude second - longitude
-        return distance.roundToLong().toString() +" km"
+        return distance.roundToLong().toString() + " km"
     }
 
+    fun submitList(list: MutableList<DBCrossItem>) {
+        mutable_crosses = list
+        notifyDataSetChanged()
+    }
 }

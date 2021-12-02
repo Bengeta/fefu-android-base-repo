@@ -17,6 +17,7 @@ import ru.fefu.activitytracker.Items.CrossItem
 import ru.fefu.activitytracker.Repository.MyCrossRepository
 import ru.fefu.activitytracker.Repository.OtherCrossRepository
 import java.util.*
+import kotlin.math.roundToLong
 
 class DetalisationFragment() : Fragment() {
     private var is_my: Boolean = false
@@ -99,9 +100,9 @@ class DetalisationFragment() : Fragment() {
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance = startPoint.distanceTo(endPoint).toDouble()
+            distance = startPoint.distanceTo(endPoint).toDouble()/1000
         }// first - latitude second - longitude
-        return distance.toString() + " km"
+        return distance.roundToLong().toString() + " km"
     }
 
     private fun countPeriod(period: Long): String {

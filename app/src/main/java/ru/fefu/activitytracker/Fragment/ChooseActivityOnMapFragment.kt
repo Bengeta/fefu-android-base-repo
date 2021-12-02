@@ -1,11 +1,21 @@
 package ru.fefu.activitytracker.Fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.audiofx.BassBoost
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -16,7 +26,9 @@ import ru.fefu.activitytracker.DataBaseStaff.SerialiseClass
 import ru.fefu.activitytracker.Interface.FlowFragmentInterface
 import ru.fefu.activitytracker.R
 import ru.fefu.activitytracker.Repository.ActivityForMapRepository
+import ru.fefu.activitytracker.Services.RecordLocationService
 import java.lang.Math.random
+import java.security.AccessController.checkPermission
 import java.util.*
 
 
@@ -34,6 +46,7 @@ class ChooseActivityOnMapFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
+        //isPermisiion();
         val recyclerAdapter = RecyclerForMapAdapter(crossRepository.getCrosses(), requireActivity())
         val view = requireView()
         chossenItem = recyclerAdapter.GetSelectedItem()
@@ -44,6 +57,8 @@ class ChooseActivityOnMapFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         startButtom.setOnClickListener {
+            //if (isPermisiion()) {
+
             val fragment_manager =
                 (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
             fragment_manager.beginTransaction().apply {
@@ -55,20 +70,10 @@ class ChooseActivityOnMapFragment : Fragment() {
                 commit()
 
             }
-            // если дата нового активити не совпадает то приписываем перед табличкой активити новую дату
-            val activities = App.INSTANCE.db.activityDao().getAll_()
-            if (activities.isNotEmpty()) {
-                val today = App.INSTANCE.db.activityDao().getAll_().last().date_start
-                val date = Date(today!!)
-                if (!datesComparator(date, Date(System.currentTimeMillis()))) {
-                    writeDate(Date(System.currentTimeMillis()))
-                }
-            } else
-                writeDate(Date(System.currentTimeMillis()))
 
-            val list = mutableListOf<Pair<Double,Double>>()
-            for(i in 1..5)
-                list.add(Pair(random() * 10,random() * 10))
+            val list = mutableListOf<Pair<Double, Double>>()
+            for (i in 1..5)
+                list.add(Pair(random() * 10, random() * 10))
 
             App.INSTANCE.db.activityDao().insertCross(
                 CrossItemEntity(
@@ -80,7 +85,11 @@ class ChooseActivityOnMapFragment : Fragment() {
                 )
             )
 
+            /* val intent = Intent(requireActivity(),RecordLocationService::class.java)
+             ContextCompat.startForegroundService(requireActivity(),intent)*/
         }
+
+        // }
         recyclerAdapter.setItemClickListener {
             recyclerAdapter.ChangeSelection(it, chossenItem)
             chossenItem = it
@@ -88,39 +97,76 @@ class ChooseActivityOnMapFragment : Fragment() {
 
     }
 
-    private fun datesComparator(date_1: Date, date_2: Date): Boolean {
-        val cal1: Calendar = Calendar.getInstance()
-        val cal2: Calendar = Calendar.getInstance()
-        cal1.time = date_1;
-        cal2.time = date_2;
-        return cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
-                cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR);
+/*
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            //Разрешение выдали
+            if (!granted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                    && !shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                ) {
+                    //Разрашение уже запрашивали, не выдали, и уже объясняли юзеру зачем нужно это разрешение
+                    showPermissionDeniedDialog()
+                } else {
+                    showRationaleDialog()
+                }
+            }
+        }
+
+    private fun isPermisiion(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+            return true
+        requestCallPermissionAndCall()
+        return (ContextCompat.checkSelfPermission(
+            requireActivity(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+                )
     }
 
-    private fun writeDate(date: Date) {
-        val months = listOf<String>(
-            "Январь",
-            "Февраль",
-            "Март",
-            "Апрель",
-            "Май",
-            "Июнь",
-            "Июль",
-            "Август",
-            "Сентябрь",
-            "Октябрь",
-            "Ноябрь",
-            "Декабрь"
-        )
-        val cal1: Calendar = Calendar.getInstance()
-        cal1.time = date;
-        App.INSTANCE.db.activityDao().insertCross(
-            CrossItemEntity(
-                id = 0,
-                date = months[cal1.get(Calendar.MONTH)] + " " + cal1.get(Calendar.YEAR) + " года"
-            )
-        )
+    private fun requestCallPermissionAndCall() {
+        when {
+            //В случае если разрешение уже просили, но его не выдали, и нужно объяснить юзеру зачем нужно разрешение
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) -> {
+                showRationaleDialog()
+            }
+            //Иначе попробовать запросить разрешение
+            else -> {
+                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+        }
     }
+
+    private fun showRationaleDialog() {
+        AlertDialog.Builder(requireActivity())
+            .setTitle("Permission required")
+            .setMessage("You cannot call from app without call permission")
+            .setPositiveButton("Proceed") { _, _ ->
+                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
+            }
+            .setNegativeButton("Cancel") { _, _ -> }
+            .show()
+    }
+
+    private fun showPermissionDeniedDialog() {
+        AlertDialog.Builder(requireActivity())
+            .setTitle("Permission required")
+            .setMessage("Please allow permission from app settings")
+            .setPositiveButton("Settings") { _, _ ->
+                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.fromParts("package", activity?.packageName, null)
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel") { _, _ -> }
+            .show()
+    }*/
 
 
 }
