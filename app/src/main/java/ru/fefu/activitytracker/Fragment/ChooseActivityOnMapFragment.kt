@@ -46,7 +46,7 @@ class ChooseActivityOnMapFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
         super.onStart()
-        //isPermisiion();
+        isPermisiion();
         val recyclerAdapter = RecyclerForMapAdapter(crossRepository.getCrosses(), requireActivity())
         val view = requireView()
         chossenItem = recyclerAdapter.GetSelectedItem()
@@ -57,7 +57,7 @@ class ChooseActivityOnMapFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         startButtom.setOnClickListener {
-            //if (isPermisiion()) {
+            if (isPermisiion()) {
 
             val fragment_manager =
                 (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
@@ -85,11 +85,11 @@ class ChooseActivityOnMapFragment : Fragment() {
                 )
             )
 
-            /* val intent = Intent(requireActivity(),RecordLocationService::class.java)
-             ContextCompat.startForegroundService(requireActivity(),intent)*/
+             val intent = Intent(requireActivity(),RecordLocationService::class.java)
+             ContextCompat.startForegroundService(requireActivity(),intent)
         }
 
-        // }
+         }
         recyclerAdapter.setItemClickListener {
             recyclerAdapter.ChangeSelection(it, chossenItem)
             chossenItem = it
@@ -97,7 +97,7 @@ class ChooseActivityOnMapFragment : Fragment() {
 
     }
 
-/*
+
 
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
@@ -166,7 +166,7 @@ class ChooseActivityOnMapFragment : Fragment() {
             }
             .setNegativeButton("Cancel") { _, _ -> }
             .show()
-    }*/
+    }
 
 
 }
