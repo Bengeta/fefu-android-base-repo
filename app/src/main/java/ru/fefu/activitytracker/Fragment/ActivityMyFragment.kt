@@ -36,6 +36,7 @@ class ActivityMyFragment : Fragment() {
             crossRepository.clear()
             var prev_date: Long? = null
             for (activity in it) {
+                if(activity.date_end == null) continue
                 val item = Activity(
                     id = activity.id,
                     type = activity.type,

@@ -69,6 +69,7 @@
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/finish_cross_button"
             android:layout_marginStart="30dp"
             android:backgroundTint="@color/purple_500"
             android:layout_width="wrap_content"

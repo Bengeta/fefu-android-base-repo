@@ -15,3 +15,4 @@ data class CrossItemEntity(
     @ColumnInfo(name = "coordinates") val coordinates: String? = null,
     @ColumnInfo(name = "date") val date: String? = null
 )
+
