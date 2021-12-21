@@ -74,7 +74,7 @@ class ActivityMyFragment : Fragment() {
                     DetalisationFragment.newInstance(
                         it,
                         true,
-                        SerialiseClass().itemEncode(crossRepository[it] as Activity)
+                        (crossRepository[it] as Activity).id
                     )
                 )
                 addToBackStack(null)

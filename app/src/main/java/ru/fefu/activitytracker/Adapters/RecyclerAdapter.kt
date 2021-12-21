@@ -98,7 +98,7 @@ class RecyclerAdapter(crosses: List<DBCrossItem>) :
         minute = minute % 60;
 
         if (hour > 0)
-            period_str = period_str + hour.toString()+ " час(ов)"
+            period_str = period_str + hour.toString() + " час(ов)"
         if (minute > 0)
             period_str = period_str + minute.toString() + " минут(а)"
         if (period_str == "") period_str = "Меньше минуты"
@@ -117,7 +117,7 @@ class RecyclerAdapter(crosses: List<DBCrossItem>) :
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance = startPoint.distanceTo(endPoint).toDouble() / 1000
+            distance += startPoint.distanceTo(endPoint).toDouble() / 1000
         }// first - latitude second - longitude
         return distance.roundToLong().toString() + " km"
     }

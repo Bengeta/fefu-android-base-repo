@@ -81,7 +81,7 @@ class StartActivityOnMapFragment : Fragment() {
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance = startPoint.distanceTo(endPoint).toDouble() / 1000
+            distance += startPoint.distanceTo(endPoint).toDouble() / 1000
         }// first - latitude second - longitude
         return distance.roundToLong().toString() + " km"
     }

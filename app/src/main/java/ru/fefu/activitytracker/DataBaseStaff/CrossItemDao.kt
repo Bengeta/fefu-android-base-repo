@@ -17,6 +17,9 @@ interface CrossItemDao {
     @Query("SELECT * FROM activities where id = (SELECT MAX(id) FROM activities)")
     fun getLastInTime(): LiveData<CrossItemEntity>
 
+    @Query("SELECT * FROM activities where id =:id")
+    fun getById(id:Int): CrossItemEntity
+
     @Query("SELECT MAX(id) FROM activities")
     fun getLastId(): Int
 
