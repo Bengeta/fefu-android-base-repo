@@ -33,10 +33,16 @@ class RecyclerAdapter(crosses: List<DBCrossItem>) :
         }
 
         fun bind(cross_item: Activity) {
-            distance.text = countDistance(SerialiseClass().listDecode(cross_item.coordinates!!))
-            time.text = countPeriod(cross_item.date_end!! - cross_item.date_start!!)
+            distance.text =
+                if (cross_item.coordinates != null)
+                    countDistance(SerialiseClass().listDecode(cross_item.coordinates))
+                else
+                    "0 km"
+            if (cross_item.date_end != null)
+                time.text = countPeriod(cross_item.date_end - cross_item.date_start!!)
             type.text = CrossType.values()[cross_item.type!!].type
-            date.text = DateFormat.format("dd.MM.yyyy", Date(cross_item.date_start!!)).toString()
+            date.text =
+                DateFormat.format("dd.MM.yyyy", cross_item.date_start?.let { Date(it) }).toString()
 
         }
     }
@@ -85,15 +91,16 @@ class RecyclerAdapter(crosses: List<DBCrossItem>) :
     }
 
     private fun countPeriod(period: Long): String {
-        val cal1: Calendar = Calendar.getInstance()
-        cal1.time = Date(period)
+
         var period_str: String = "";
-        val hour = cal1.get(Calendar.HOUR)
-        val minute = cal1.get(Calendar.MINUTE)
+        var minute = period / 60000
+        val hour = minute / 60
+        minute = minute % 60;
+
         if (hour > 0)
-            period_str = period_str + cal1.get(Calendar.HOUR) + " час(ов)"
+            period_str = period_str + hour.toString() + " час(ов)"
         if (minute > 0)
-            period_str = period_str + cal1.get(Calendar.MINUTE) + " минут(а)"
+            period_str = period_str + minute.toString() + " минут(а)"
         if (period_str == "") period_str = "Меньше минуты"
         return period_str
     }
@@ -110,7 +117,7 @@ class RecyclerAdapter(crosses: List<DBCrossItem>) :
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance = startPoint.distanceTo(endPoint).toDouble() / 1000
+            distance += startPoint.distanceTo(endPoint).toDouble() / 1000
         }// first - latitude second - longitude
         return distance.roundToLong().toString() + " km"
     }

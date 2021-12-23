@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import ru.fefu.activitytracker.Activity.MapActivity
 import ru.fefu.activitytracker.Adapters.RecyclerForMapAdapter
 import ru.fefu.activitytracker.DataBaseStaff.App
 import ru.fefu.activitytracker.DataBaseStaff.CrossItemEntity
@@ -45,8 +46,9 @@ class ChooseActivityOnMapFragment : Fragment() {
 
     @SuppressLint("SimpleDateFormat")
     override fun onStart() {
+        var activity = requireActivity() as MapActivity
         super.onStart()
-        //isPermisiion();
+        //activity.isPermission();
         val recyclerAdapter = RecyclerForMapAdapter(crossRepository.getCrosses(), requireActivity())
         val view = requireView()
         chossenItem = recyclerAdapter.GetSelectedItem()
@@ -57,7 +59,7 @@ class ChooseActivityOnMapFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         startButtom.setOnClickListener {
-            //if (isPermisiion()) {
+            if (activity.isPermission() && activity.startLocationService()) {
 
             val fragment_manager =
                 (parentFragment as FlowFragmentInterface).getFlowFragmentManager()
@@ -71,25 +73,18 @@ class ChooseActivityOnMapFragment : Fragment() {
 
             }
 
-            val list = mutableListOf<Pair<Double, Double>>()
-            for (i in 1..5)
-                list.add(Pair(random() * 10, random() * 10))
-
             App.INSTANCE.db.activityDao().insertCross(
                 CrossItemEntity(
                     id = 0,
                     type = crossRepository.getCrosses().toMutableList()[chossenItem].type,
                     date_start = System.currentTimeMillis(),
-                    date_end = System.currentTimeMillis() + 1000000000,
-                    coordinates = SerialiseClass().listEncode(list),
+                    date_end = null,
+                    coordinates = null,
                 )
             )
-
-            /* val intent = Intent(requireActivity(),RecordLocationService::class.java)
-             ContextCompat.startForegroundService(requireActivity(),intent)*/
         }
 
-        // }
+         }
         recyclerAdapter.setItemClickListener {
             recyclerAdapter.ChangeSelection(it, chossenItem)
             chossenItem = it
@@ -97,76 +92,6 @@ class ChooseActivityOnMapFragment : Fragment() {
 
     }
 
-/*
-
-    private val requestPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            //Разрешение выдали
-            if (!granted) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                    && !shouldShowRequestPermissionRationale(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                ) {
-                    //Разрашение уже запрашивали, не выдали, и уже объясняли юзеру зачем нужно это разрешение
-                    showPermissionDeniedDialog()
-                } else {
-                    showRationaleDialog()
-                }
-            }
-        }
-
-    private fun isPermisiion(): Boolean {
-        if (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        )
-            return true
-        requestCallPermissionAndCall()
-        return (ContextCompat.checkSelfPermission(
-            requireActivity(),
-            android.Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
-                )
-    }
-
-    private fun requestCallPermissionAndCall() {
-        when {
-            //В случае если разрешение уже просили, но его не выдали, и нужно объяснить юзеру зачем нужно разрешение
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && shouldShowRequestPermissionRationale(
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) -> {
-                showRationaleDialog()
-            }
-            //Иначе попробовать запросить разрешение
-            else -> {
-                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-        }
-    }
-
-    private fun showRationaleDialog() {
-        AlertDialog.Builder(requireActivity())
-            .setTitle("Permission required")
-            .setMessage("You cannot call from app without call permission")
-            .setPositiveButton("Proceed") { _, _ ->
-                requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
-            }
-            .setNegativeButton("Cancel") { _, _ -> }
-            .show()
-    }
-
-    private fun showPermissionDeniedDialog() {
-        AlertDialog.Builder(requireActivity())
-            .setTitle("Permission required")
-            .setMessage("Please allow permission from app settings")
-            .setPositiveButton("Settings") { _, _ ->
-                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
-                intent.data = Uri.fromParts("package", activity?.packageName, null)
-                startActivity(intent)
-            }
-            .setNegativeButton("Cancel") { _, _ -> }
-            .show()
-    }*/
 
 
 }

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import ru.fefu.activitytracker.*
+import ru.fefu.activitytracker.DataBaseStaff.App
 import ru.fefu.activitytracker.DataBaseStaff.CrossItemEntity
 import ru.fefu.activitytracker.DataBaseStaff.SerialiseClass
 import ru.fefu.activitytracker.Enums.CrossType
@@ -26,10 +27,10 @@ class DetalisationFragment() : Fragment() {
     lateinit var cross_item: CrossItemEntity
 
     companion object {
-        fun newInstance(position: Int, is_my: Boolean, cross_item: String?) =
+        fun newInstance(position: Int, is_my: Boolean, id: Int?) =
             DetalisationFragment().apply {
                 arguments =
-                    bundleOf("is_my" to is_my, "position" to position, "cross_item" to cross_item)
+                    bundleOf("is_my" to is_my, "position" to position, "id" to id)
             }
     }
 
@@ -41,8 +42,9 @@ class DetalisationFragment() : Fragment() {
 
         is_my = arguments?.get("is_my") as Boolean
         position = arguments?.get("position") as Int
+        val id = arguments?.get("id") as Int?
         if (is_my)
-            cross_item = SerialiseClass().itemDecode(arguments?.get("cross_item") as String)
+            cross_item = App.INSTANCE.db.activityDao().getById(id!!)
         crossRepository = if (is_my) MyCrossRepository().getCrosses()
             .toMutableList() else OtherCrossRepository().getCrosses().toMutableList()
         return inflater.inflate(R.layout.fragment_detalisation, container, false)
@@ -100,21 +102,22 @@ class DetalisationFragment() : Fragment() {
             endPoint.latitude = list[i + 1].first
             endPoint.longitude = list[i + 1].second
 
-            distance = startPoint.distanceTo(endPoint).toDouble()/1000
+            distance += startPoint.distanceTo(endPoint).toDouble() / 1000
         }// first - latitude second - longitude
         return distance.roundToLong().toString() + " km"
     }
 
     private fun countPeriod(period: Long): String {
-        val cal1: Calendar = Calendar.getInstance()
-        cal1.time = Date(period)
+
         var period_str: String = "";
-        val hour = cal1.get(Calendar.HOUR)
-        val minute = cal1.get(Calendar.MINUTE)
+        var minute = period / 60000
+        val hour = minute / 60
+        minute = minute % 60;
+
         if (hour > 0)
-            period_str = period_str + cal1.get(Calendar.HOUR) + " час(ов)"
+            period_str = period_str + hour.toString() + " час(ов)"
         if (minute > 0)
-            period_str = period_str + cal1.get(Calendar.MINUTE) + " минут(а)"
+            period_str = period_str + minute.toString() + " минут(а)"
         if (period_str == "") period_str = "Меньше минуты"
         return period_str
     }
